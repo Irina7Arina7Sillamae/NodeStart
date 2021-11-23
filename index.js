@@ -20,7 +20,7 @@ const server = http.createServer((req, res) => {
     <br>Strong rays are no longer warmed,
     <br>Nature is all full of the last warmth;
     <br>Even along the wet between the flowers flaunt.
-    <br>Alexey Tolstoy
+    <br style="align: right;">Alexey Tolstoy
     </div>
     </div>
     `)
