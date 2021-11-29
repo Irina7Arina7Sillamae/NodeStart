@@ -1,32 +1,95 @@
 const http = require ('http')
+const path = require ('path')
+const fs = require ('fs')
 
 //Cоздание своего сервера
 const server = http.createServer((req, res) => {
-    console.log(req.url)
+    if (req.method === 'GET') {
+        res.writeHead(200, {
+            'Content-Type': 'text/html; charset=utf-8'
+        })
+//выход на главную страницу
+        if (req.url === '/') {
+            fs.readFile(
+                path.join(__dirname, 'views',  'index.html'),
+                'utf-8',
+                (err, content) => {
+                    if (err) { 
+                        throw err
+                    }
 
-    res.write('<h1>Hello from NodeJS</h1>')
-    res.write('<h2>Hello from NodeJS</h2>')
-    res.write('<h3>Hello from NodeJS</h3>')
-    res.end(`
-    <div style="background: #f4e539; width: 400px; height: 200px;">
-    <h1>Test</h1>
-    </div>
-    
-    <img src="https://klike.net/uploads/posts/2019-05/1556708032_1.jpg" style=" width: 400px; height: 200px" >
-    
-    <div style="background: #fe876c ; width: 400px; height: 200px; padding-top: 50px;">
-    <div style="text-align: center;  font-size: 20px;">Aspirations subsided; different beauty
-    <br>Changed the old one; jubilant summer
-    <br>Strong rays are no longer warmed,
-    <br>Nature is all full of the last warmth;
-    <br>Even along the wet between the flowers flaunt.
-    <br style="align: right;">Alexey Tolstoy
-    </div>
-    </div>
-    `)
+                    res.end(content)
+                }
+            )
+//выход на страницу About
+        } else if (req.url === '/about') {
+            fs.readFile(
+                path.join(__dirname, 'views', 'about.html'),
+                'utf-8',
+                (err, content) => {
+                    if (err) {
+                        throw err
+                    }
+                    res.end(content)
+                }
+            )
+//выход на страницу Art
+        } else if (req.url === '/art') {
+            fs.readFile(
+                path.join(__dirname, 'views', 'art.html'),
+                'utf-8',
+                (err, content) => {
+                    if (err) {
+                        throw err
+                    }
+                    res.end(content)
+                }
+            )
+        } else if (req.url === '/animals') {
+            fs.readFile(
+                path.join(__dirname, 'views', 'animals.html'),
+                'utf-8',
+                (err, content) => {
+                    if (err) {
+                        throw err
+                    }
+                    res.end(content)
+                }
+            )
+//выход на страницу Architec
+        } else if (req.url === '/architec') {
+            fs.readFile(
+                path.join(__dirname, 'views', 'architec.html'),
+                'utf-8',
+                (err, content) => {
+                    if (err) {
+                        throw err
+                    }
+                    res.end(content)
+                }
+            )
+        }
+    } else if (req.method === 'POST') {
+        const body = []
+        res.writeHead(200, {
+            'Content-Type': 'text/html; charset=utf-8'
+        })
+
+        req.on('data', data => {
+            body.push(Buffer.from(data))
+        })
+
+        req,on('end', () => {
+            const message = body.toString().split('=')[1]
+
+            res.end(`
+            <h1>Ваше сообщение: ${message}</h1>
+            `)
+        })
+    }
 })
-
+        
 //сервер слушает порт 3000
- server.listen(3000, () => {
+server.listen(3000, () => {
     console.log('Server is running...')
 })
